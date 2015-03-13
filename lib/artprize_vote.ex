@@ -1,0 +1,2 @@
+defmodule ArtprizeVote do
+end
