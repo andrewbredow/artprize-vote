@@ -32,10 +32,11 @@ defmodule ArtprizeVote do
   end
 
   def calculate_winner(votes) do
-    unique_votes = unique_by_voter_and_entry(votes)
-    summed_entries = sum_per_entry(unique_votes, %{})
-    ordered_entries = order_by_votes(summed_entries)
-    Enum.at(ordered_entries, 0, %{})
+    votes
+    |> unique_by_voter_and_entry
+    |> sum_per_entry(%{})
+    |> order_by_votes
+    |> Enum.at(0, %{})
   end
 
   defp unique_by_voter_and_entry(votes), do: Enum.uniq votes
