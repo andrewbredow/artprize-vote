@@ -39,16 +39,26 @@ defmodule ArtprizeVote do
     |> Enum.at(0, %{})
   end
 
-  defp unique_by_voter_and_entry(votes), do: Enum.uniq votes
+  def unique_by_voter_and_entry(votes), do: Enum.uniq votes
 
-  defp sum_per_entry([], sums), do: sums
-  defp sum_per_entry([{_, entry_id}|tail], sums) do
+  def sum_per_entry([], sums), do: sums
+  def sum_per_entry([{_, entry_id}|tail], sums) do
     initial_value = Dict.get(sums, entry_id, 0)
     sums = Dict.put(sums, entry_id, initial_value + 1)
     sum_per_entry(tail, sums)
   end
 
-  defp order_by_votes(sums) do
+  @doc """
+  Takes a list of {entry_id, entry_vote_count} tuples and orders them
+  in descending order by votes
+
+  # Example
+
+    iex> ArtprizeVote.order_by_votes([{2, 34}, {1, 50}, {3, 2}])
+    [{1, 50}, {2, 34}, {3, 2}]
+
+  """
+  def order_by_votes(sums) do
     Enum.sort(sums, fn {_, sum_1}, {_, sum_2} -> sum_1 > sum_2 end)
   end
 end
